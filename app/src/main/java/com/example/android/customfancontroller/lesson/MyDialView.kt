@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.withStyledAttributes
 import com.example.android.customfancontroller.R
 import kotlin.math.cos
 import kotlin.math.min
@@ -43,8 +44,18 @@ class MyDialView @JvmOverloads constructor(
         typeface = Typeface.create( "", Typeface.BOLD)
     }
 
+    private var fanSpeedLowColor = 0
+    private var fanSpeedMediumColor = 0
+    private var fanSeedMaxColor = 0
+
     init {
         isClickable = true
+
+        context.withStyledAttributes(attrs, R.styleable.MyDialView) {
+            fanSpeedLowColor = getColor(R.styleable.MyDialView_myFanColor1, 0)
+            fanSpeedMediumColor = getColor(R.styleable.MyDialView_myFanColor2, 0)
+            fanSeedMaxColor = getColor(R.styleable.MyDialView_myFanColor3, 0)
+        }
     }
 
     override fun performClick(): Boolean {
@@ -63,8 +74,13 @@ class MyDialView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        // Set dial background color to green if selection not off.
-        paint.color = if (fanSpeed == FanSpeed.OFF) Color.GRAY else Color.GREEN
+        // Set dial background color if selection not off.
+        paint.color = when (fanSpeed) {
+            FanSpeed.OFF -> Color.GRAY
+            FanSpeed.LOW -> fanSpeedLowColor
+            FanSpeed.MEDIUM -> fanSpeedMediumColor
+            FanSpeed.HIGH -> fanSeedMaxColor
+        }
 
         // Draw the dial.
         canvas.drawCircle((width / 2).toFloat(), (height / 2).toFloat(), radius, paint)

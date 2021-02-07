@@ -5,4 +5,9 @@
         <attr name="fanColor2" format="color" />
         <attr name="fanColor3" format="color" />
     </declare-styleable>
+    <declare-styleable name="MyDialView">
+        <attr name="myFanColor1" format="color" />
+        <attr name="myFanColor2" format="color" />
+        <attr name="myFanColor3" format="color" />
+    </declare-styleable>
 </resources>
